@@ -8,10 +8,23 @@ import config
 import requests
 import re
 from bs4 import BeautifulSoup
+from sys import argv
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
+config.USERNAME = os.getenv("USERNAME")
+config.PASSWORD = os.getenv("PASSWORD")
 
+def getopts(argv):
+        opts = {}
+        while argv:
+            if argv[0][0] == '-':
+                if argv[0] in opts:
+                    opts[argv[0]].append(argv[1])
+                else:
+                    opts[argv[0]] = [argv[1]]
+            argv = argv[1:] 
+        return opts
 
 def login():
     cookie_filename = 'cookies.txt'
@@ -84,6 +97,8 @@ if __name__ == '__main__':
     cookies = authenticate()
     headers = {'Csrf-Token': 'ajax:4332914976342601831'}
     cookies['JSESSIONID'] = 'ajax:4332914976342601831'
+    myargs = getopts(argv)
+    config.COURSES = (myargs['-u'],config.COURSES)[len(config.COURSES)]
     for course in config.COURSES:
         print ''
         course_url = 'https://www.linkedin.com/learning-api/detailedCourses' \
