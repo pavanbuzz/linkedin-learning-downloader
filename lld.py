@@ -98,7 +98,7 @@ if __name__ == '__main__':
     headers = {'Csrf-Token': 'ajax:4332914976342601831'}
     cookies['JSESSIONID'] = 'ajax:4332914976342601831'
     myargs = getopts(argv)
-    config.COURSES = (myargs['-u'],config.COURSES)[len(config.COURSES)]
+    config.COURSES = (config.COURSES,myargs['-u'])[len(myargs['-u'])]
     for course in config.COURSES:
         print ''
         course_url = 'https://www.linkedin.com/learning-api/detailedCourses' \
